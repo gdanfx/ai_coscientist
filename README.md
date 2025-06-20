@@ -1,6 +1,6 @@
 # AI Co-Scientist: Autonomous Scientific Research System
 
-A sophisticated multi-agent AI research pipeline that autonomously conducts complete scientific research cycles: literature review → hypothesis generation → peer review → competitive ranking → creative improvement → meta-analysis.
+A multi-agent AI research pipeline that autonomously conducts complete scientific research cycles: literature review → hypothesis generation → peer review → competitive ranking → creative improvement → meta-analysis.
 
 ## 🎯 Overview
 
@@ -49,18 +49,24 @@ Generation Agent → Proximity Agent → Reflection Agent → Ranking Agent → 
    cd ai_coscientist
    ```
 
-2. **Install dependencies**
+2. **Create and activate virtual environment**
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configure environment**
+4. **Configure environment**
    ```bash
    cp .env.example .env
    # Edit .env with your API keys and email
    ```
 
-4. **Set required environment variables**
+5. **Set required environment variables**
    ```bash
    export GOOGLE_API_KEY="your_gemini_api_key_here"
    export PUBMED_EMAIL="your_email@example.com"
@@ -71,17 +77,54 @@ Generation Agent → Proximity Agent → Reflection Agent → Ranking Agent → 
 #### Command Line Interface
 
 ```bash
-# Run with default settings
-python main.py
+# Activate virtual environment first
+source venv/bin/activate
 
-# Specify research goal
-python main.py --research-goal "AI applications in healthcare"
+# Run system test
+python main.py --test
+
+# Specify research goal (positional argument)
+python main.py "AI applications in healthcare"
 
 # Advanced configuration
-python main.py --research-goal "Drug discovery using ML" \
+python main.py "Drug discovery using ML" \
                --max-cycles 5 \
                --evolution-every 2 \
-               --constraints "Focus on FDA-approved compounds"
+               --constraints "Focus on FDA-approved compounds" \
+               --output results.json
+
+# Quick test run (2 cycles)
+python main.py "Drug discovery using ML" \
+               --rapid \
+               --constraints "Focus on FDA-approved compounds" \
+               --output test_results.json \
+               --log-file test.log
+
+# Thorough research (5 cycles, comprehensive analysis)
+python main.py "Novel approaches to cancer immunotherapy" \
+               --thorough \
+               --constraints "Consider ethical implications" "Focus on patient safety" \
+               --output thorough_results.json \
+               --log-file thorough.log
+```
+
+#### Complete CLI Options
+
+```bash
+python main.py [-h] [--constraints [CONSTRAINTS ...]] [--max-cycles MAX_CYCLES] 
+               [--evolution-every EVOLUTION_EVERY] [--proximity-every PROXIMITY_EVERY] 
+               [--meta-every META_EVERY] [--no-improve-patience NO_IMPROVE_PATIENCE] 
+               [--rapid] [--thorough] [--test] [--validate-config] 
+               [--log-level {DEBUG,INFO,WARNING,ERROR}] [--log-file LOG_FILE] 
+               [--output OUTPUT] [research_goal]
+
+# Examples:
+python main.py "Develop novel treatments for Alzheimer's disease"
+python main.py "AI applications in drug discovery" --max-cycles 5 --output results.json
+python main.py "Personalized medicine approaches" \
+               --constraints "Must be clinically applicable" "Focus on biomarkers" \
+               --log-file research.log
+python main.py --test  # Run system test
 ```
 
 #### Programmatic Usage
@@ -119,6 +162,22 @@ print(f"Top hypothesis: {results.final_hypotheses[0]['content']}")
 | `CROSSREF_EMAIL` | Email for CrossRef API access | No | `researcher@university.edu` |
 | `LOG_LEVEL` | Logging level | No | `INFO` |
 | `USE_MOCK_LLM` | Use mock LLM for testing | No | `false` |
+
+### Virtual Environment Management
+
+```bash
+# Always activate your virtual environment before running
+source venv/bin/activate
+
+# Deactivate when done
+deactivate
+
+# Recreate environment if needed
+rm -rf venv
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
 ### Research Configuration
 
@@ -222,8 +281,14 @@ print(f"Recommendations: {result.actionable_for_generation}")
 ### Running Tests
 
 ```bash
+# Activate virtual environment first
+source venv/bin/activate
+
 # Run all tests
 python run_tests.py
+
+# Run system test via CLI
+python main.py --test --output system_test.json
 
 # Run specific test suites
 python -m pytest tests/unit/ -v
@@ -239,12 +304,12 @@ python -m pytest tests/unit/test_reflection.py -v
 
 - **Unit Tests**: Test individual agent functionality
 - **Integration Tests**: Test agent interactions and data flow
-- **System Tests**: End-to-end workflow validation
+- **System Tests**: End-to-end workflow validation via `--test` flag
 
 ### Running Individual Agents
 
 ```bash
-# Test individual agents
+# Test individual agents (with venv activated)
 python -m agents.generation
 python -m agents.proximity  
 python -m agents.reflection
@@ -261,8 +326,8 @@ ai_coscientist/
 ├── .gitignore               # Git ignore rules  
 ├── requirements.txt         # Python dependencies
 ├── main.py                  # CLI entry point
-├── CLAUDE.md               # Development guidance
 ├── README.md               # This file
+├── venv/                   # Virtual environment (created during setup)
 │
 ├── core/                   # Core system components
 │   ├── __init__.py
@@ -414,7 +479,22 @@ supervisor.export_to_markdown(results, "research_report.md")
 
 ### Common Issues
 
-1. **API Key Issues**
+1. **Virtual Environment Issues**
+   ```bash
+   # Ensure virtual environment is activated
+   source venv/bin/activate
+   
+   # Check if you're in the virtual environment
+   which python  # Should show path to venv/bin/python
+   
+   # Recreate if needed
+   rm -rf venv
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r requirements.txt
+   ```
+
+2. **API Key Issues**
    ```bash
    # Verify your environment variables
    echo $GOOGLE_API_KEY
@@ -424,22 +504,36 @@ supervisor.export_to_markdown(results, "research_report.md")
    python -c "from core.config import get_config; print(get_config())"
    ```
 
-2. **Import Errors**
+3. **CLI Syntax Errors**
    ```bash
-   # Ensure you're in the project directory
+   # Research goal is a positional argument, not a flag
+   # CORRECT:
+   python main.py "Drug discovery using ML"
+   
+   # INCORRECT:
+   python main.py --research-goal "Drug discovery using ML"
+   
+   # Check help for correct syntax
+   python main.py --help
+   ```
+
+4. **Import Errors**
+   ```bash
+   # Ensure you're in the project directory with venv activated
    cd ai_coscientist
+   source venv/bin/activate
    
    # Install missing dependencies
    pip install -r requirements.txt
    ```
 
-3. **Literature Search Failures**
+5. **Literature Search Failures**
    ```bash
    # Test individual literature sources
    python -c "from utils.literature_search import search_pubmed; print(search_pubmed('AI healthcare'))"
    ```
 
-4. **LLM Connection Issues**
+6. **LLM Connection Issues**
    ```bash
    # Test LLM connection
    python -c "from utils.llm_client import create_llm_client; client = create_llm_client(); print(client.invoke('Test'))"
@@ -469,11 +563,16 @@ supervisor = IntegratedSupervisor(config)
 
 1. Fork the repository
 2. Create a feature branch
-3. Install development dependencies:
+3. Set up virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate
+   ```
+4. Install development dependencies:
    ```bash
    pip install -r requirements-dev.txt
    ```
-4. Run tests before committing:
+5. Run tests before committing:
    ```bash
    python run_tests.py
    ```
@@ -508,7 +607,6 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 For questions, issues, or contributions:
 
-- **Documentation**: See CLAUDE.md for detailed development guidance
 - **Issues**: Create an issue on GitHub
 - **Email**: Contact the development team
 
