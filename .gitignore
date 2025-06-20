@@ -1,0 +1,262 @@
+# AI Co-Scientist .gitignore
+
+# ==============================================================================
+# ENVIRONMENT & SECRETS
+# ==============================================================================
+.env
+.env.local
+.env.production
+.env.staging
+*.key
+*.pem
+secrets/
+credentials/
+
+# ==============================================================================
+# PYTHON
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff
+instance/
+.webassets-cache
+
+# Scrapy stuff
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# ==============================================================================
+# MACHINE LEARNING & DATA
+# ==============================================================================
+models/
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.hdf5
+*.ckpt
+*.pth
+*.pt
+data/raw/
+data/processed/
+embeddings/
+checkpoints/
+experiments/
+runs/
+logs/
+
+# Sentence Transformers cache
+.cache/
+sentence_transformers/
+
+# Hugging Face cache
+.cache/huggingface/
+transformers/
+
+# ==============================================================================
+# AI CO-SCIENTIST SPECIFIC
+# ==============================================================================
+# Literature search cache
+literature_cache/
+pubmed_cache/
+arxiv_cache/
+crossref_cache/
+
+# Generated hypotheses and results
+results/
+outputs/
+generated_hypotheses/
+evolution_results/
+ranking_results/
+meta_review_results/
+
+# Agent state files
+agent_states/
+supervisor_states/
+checkpoint_*.json
+state_*.pkl
+
+# Research output files
+research_reports/
+final_hypotheses/
+*.research.json
+
+# ==============================================================================
+# DEVELOPMENT & TOOLS
+# ==============================================================================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Log files
+*.log
+logs/
+
+# ==============================================================================
+# JUPYTER & COLAB
+# ==============================================================================
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+.colab/
+
+# ==============================================================================
+# API RESPONSES & CACHE
+# ==============================================================================
+api_cache/
+llm_cache/
+response_cache/
+*.cache
+
+# ==============================================================================
+# TESTING
+# ==============================================================================
+.coverage
+htmlcov/
+.pytest_cache/
+test_results/
+test_outputs/
+
+# ==============================================================================
+# DOCUMENTATION BUILD
+# ==============================================================================
+docs/_build/
+docs/build/
+site/
